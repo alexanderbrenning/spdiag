@@ -1,0 +1,191 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Spatial model diagnostics - overview of code and data},
+  pdfauthor={Alexander Brenning},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Spatial model diagnostics - overview of code and data}
+\author{Alexander Brenning}
+\date{13 November 2021}
+
+\begin{document}
+\maketitle
+
+\hypertarget{files}{%
+\section{Files}\label{files}}
+
+All code is written in R version 4.1.0.
+CRAN or Github versions of required packages can be installed using the install script.
+
+The following files are included in this data and code publication, using the following file naming conventions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{casestudy} is the name of the case study, i.e., \texttt{meuse} or \texttt{maipo};
+\item
+  \texttt{model} represents the model, for example \texttt{rf} for random forest, or \texttt{splda} for NN-LDA.
+\item
+  \texttt{est} represents the estimation technique, such as \texttt{loo} for (non-spatial) LOO-CV, or \texttt{spcv} for spatial CV using \(k\)-means clustering of sample coordinates.
+\item
+  \texttt{.rda} and \texttt{.Rdata} files were saved using \texttt{save()}, while \texttt{.rds} files used \texttt{saveRDS()}.
+\end{itemize}
+
+\emph{Code files:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{spdiag\_install.R}: Install required R packages from CRAN or Github, as appropriate.
+\item
+  \texttt{spdiag\_casestudy.R}: Prepare data and other objects defining, for example, model settings. Result is saved in file \texttt{run\_casestudy.rda}, in the Maipo case study also in \texttt{wrp\_maipo.rda}.
+\end{itemize}
+
+\emph{Data and results files:}
+
+\begin{itemize}
+\tightlist
+\item
+  The raw data of the Meuse and Maipo case studies is included in the \texttt{sp} package as \texttt{data(meuse)} and in the \texttt{sperrorest} package as \texttt{data(maipo)}, respectively.
+\item
+  \texttt{run\_casestudy.rda}: Preprocessed data and other object defining, for example, model settings.
+\item
+  \texttt{wrp\_maipo.rda}: Preprocessed data and transformation objects for model interpretation from a transformed perspective in the Maipo case study.
+\item
+  \texttt{casestudy\_res\_model.rda}: Results of spatial LOO estimation, to be used to compute SPEPs and SVIPs.
+\item
+  \texttt{casestudy\_res\_est.rda}: Results of various performance estimation procedures such as spatial CV (\texttt{est}: \texttt{spcv}) or resubstitution (\texttt{train}).
+\item
+  \texttt{casestudy\_smry.rds}: Summary object that contains data and (processed) results from the case studies for use in the RMarkdown manuscript file.
+\end{itemize}
+
+\hypertarget{preparing-the-data-and-computing-environment}{%
+\section{Preparing the data and computing environment}\label{preparing-the-data-and-computing-environment}}
+
+The code has been executed with R 4.1.0 and requires several additional R packages.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Run \texttt{spdiag\_install.R}.
+\item
+  Run \texttt{spdiag\_casestudy.R}. You can skip this and use the pre-computed files instead.
+\end{enumerate}
+
+\hypertarget{running-the-computations}{%
+\section{Running the computations}\label{running-the-computations}}
+
+The following steps perform all computations made for this paper. Skip this section to use pre-computed results.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Run each of the \texttt{run\_casestudy\_model.R} scripts.
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  This is the computationally most intensive part, which requires a high-performance computing environment since the code has not been optimized for performance. Note that memory requirements are high in parallel processing. Currently not all scripts make use of parallelization.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Run each of the \texttt{run\_casestudy\_est.R} scripts.
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  This is computationally intensive especially in the Maipo case study and in the hybrid OK-RF model. Currently not all scripts make use of parallelization.
+\end{itemize}
+
+\hypertarget{summarizing-and-plotting-the-results}{%
+\section{Summarizing and plotting the results}\label{summarizing-and-plotting-the-results}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Run \texttt{spdiag\_casestudy\_smry.R}.
+\item
+  Run \texttt{spdiag\_casestudy\_plot.R} step by step to generate the figures from the manuscript.
+\end{enumerate}
+
+\end{document}

@@ -1,2 +1,14 @@
-# spdiag
-Spatial machine-learning model diagnostics: a model-agnostic distance-based approach
+# Spatial machine-learning model diagnostics: a model-agnostic distance-based approach
+
+This repository contains code and data supporting the following article, which should be cited when using this material:
+
+- Brenning, A. (submitted): Spatial machine-learning model diagnostics: a model-agnostic distance-based approach. Submitted to *International Journal of Geographical Information Science*, September 2021.
+
+A preprint of this paper is also available via arXiV:
+
+- Brenning, A. (2021): Spatial machine-learning model diagnostics: a model-agnostic distance-based approach. arXiV preprint, ???.
+
+This repository is mainly intended to accompany the IJGIS paper.
+The next step will be to migrate the code into the `sperrorest` package (https://github.com/giscience-fsu/sperrorest), adding user-level functions for the calculation of spatial prediction error profiles (SPEPs) and spatial variable importance profiles (SVIPs) and their visualization.
+
+The file `code_data.pdf` describes the structure and workflow of thhis repository.
