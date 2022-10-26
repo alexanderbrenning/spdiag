@@ -2,7 +2,7 @@
 
 This repository contains code and data supporting the following article, which should be cited when using this material:
 
-- Brenning, A. (2022): Spatial machine-learning model diagnostics: a model-agnostic distance-based approach. Submitted to *International Journal of Geographical Information Science*, DOI: [10.1080/13658816.2022.2131789](https://doi.org/10.1080/13658816.2022.2131789).
+- Brenning, A. (2022): Spatial machine-learning model diagnostics: a model-agnostic distance-based approach. *International Journal of Geographical Information Science*, DOI: [10.1080/13658816.2022.2131789](https://doi.org/10.1080/13658816.2022.2131789).
 
 A preprint of this paper is also available via arXiV:
 
